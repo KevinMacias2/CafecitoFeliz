@@ -1,0 +1,126 @@
+<div class="sales-container fade-in">
+    <!-- Left Side: Product Selection -->
+    <div class="products-section">
+        <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input type="text" [(ngModel)]="searchQuery" placeholder="Buscar producto por nombre..."
+                class="search-input">
+        </div>
+
+        <div class="products-grid">
+            @for (product of filteredProducts; track product._id) {
+            <div class="product-card" (click)="addToCart(product)">
+                <div class="product-image">
+                    <span class="coffee-icon">☕</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-price">{{ product.price | currency:'USD' }}</p>
+                    <p class="product-stock" [class.low-stock]="product.stock < 5">
+                        Stock: {{ product.stock }}
+                    </p>
+                </div>
+                <button class="add-btn">+</button>
+            </div>
+            } @empty {
+            <div class="no-results" *ngIf="!loading">
+                <p>No se encontraron productos.</p>
+            </div>
+            }
+            <div class="loading-overlay" *ngIf="loading">Cargando productos...</div>
+        </div>
+    </div>
+
+    <!-- Right Side: Cart & Checkout -->
+    <aside class="cart-section">
+        <div class="cart-header">
+            <h2 class="brand-font">Carrito</h2>
+            <button class="clear-btn" (click)="clearCart()" *ngIf="cart.length > 0">Limpiar</button>
+        </div>
+
+        <div class="cart-items">
+            @for (item of cart; track item.product._id) {
+            <div class="cart-item">
+                <div class="item-info">
+                    <p class="item-name">{{ item.product.name }}</p>
+                    <p class="item-price">{{ item.product.price | currency:'USD' }} x {{ item.quantity }}</p>
+                </div>
+                <div class="item-actions">
+                    <span class="item-total">{{ (item.product.price * item.quantity) | currency:'USD' }}</span>
+                    <div class="quantity-controls">
+                        <button (click)="updateQuantity(item, -1)">-</button>
+                        <button (click)="updateQuantity(item, 1)">+</button>
+                    </div>
+                </div>
+            </div>
+            } @empty {
+            <div class="empty-cart">
+                <div class="empty-icon">🛒</div>
+                <p>Tu carrito está vacío</p>
+            </div>
+            }
+        </div>
+
+        <div class="cart-footer">
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>{{ subtotal | currency:'USD' }}</span>
+            </div>
+            <div class="summary-row discount" *ngIf="discountPercent > 0">
+                <span>Descuento ({{ discountPercent }}%)</span>
+                <span>-{{ discountAmount | currency:'USD' }}</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total</span>
+                <span>{{ total | currency:'USD' }}</span>
+            </div>
+
+            <div class="customer-selection">
+                <label>Cliente</label>
+                <select class="customer-select" [(ngModel)]="selectedCustomerId" (change)="onCustomerChange()">
+                    <option [value]="null">Consumidor Final</option>
+                    @for (customer of customers; track customer._id) {
+                    <option [value]="customer._id">
+                        {{ customer.name }} ({{ customer.purchasesCount }} compras)
+                    </option>
+                    }
+                </select>
+            </div>
+
+            <button class="btn-primary checkout-btn" [disabled]="cart.length === 0 || processingSale"
+                (click)="checkout()">
+                {{ processingSale ? 'Procesando...' : 'Registrar Venta' }}
+            </button>
+        </div>
+    </aside>
+</div>
+
+<!-- Ticket Modal -->
+<div class="ticket-modal" *ngIf="showTicket && lastSale">
+    <div class="ticket-content">
+        <div class="ticket-header">
+            <img src="Logo_Cafe.png" alt="Logo" class="ticket-logo">
+            <h3>Cafecito Feliz</h3>
+            <p>Ticket de Venta #{{ lastSale._id?.slice(-6) }}</p>
+            <hr>
+        </div>
+        <div class="ticket-body">
+            @for (item of lastSale.items; track item.product) {
+            <div class="ticket-row">
+                <span>{{ item.quantity }}x {{ item.name }}</span>
+                <span>{{ item.lineTotal | currency:'USD' }}</span>
+            </div>
+            }
+            <hr>
+            <div class="ticket-summary">
+                <p>Subtotal: {{ lastSale.subtotal | currency:'USD' }}</p>
+                <p *ngIf="lastSale.discountAmount > 0">Desc: -{{ lastSale.discountAmount | currency:'USD' }}</p>
+                <p class="ticket-total">TOTAL: {{ lastSale.total | currency:'USD' }}</p>
+            </div>
+        </div>
+        <div class="ticket-footer">
+            <p>¡Gracias por su compra!</p>
+            <button class="btn-primary" (click)="closeTicket()">Cerrar</button>
+        </div>
+    </div>
+</div>

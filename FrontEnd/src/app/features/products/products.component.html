@@ -1,0 +1,85 @@
+<div class="products-container fade-in">
+    <div class="header">
+        <h1 class="brand-font">Inventario de Productos</h1>
+        <button class="btn-primary" (click)="openForm()">
+            + Nuevo Producto
+        </button>
+    </div>
+
+    @if (showForm) {
+    <div class="form-overlay fade-in">
+        <div class="form-card">
+            <h2 class="brand-font">{{ editingProduct ? 'Editar' : 'Nuevo' }} Producto</h2>
+            <form (ngSubmit)="saveProduct()">
+                <div class="form-group">
+                    <label>Nombre del Producto</label>
+                    <input type="text" [(ngModel)]="currentProduct.name" name="name" required
+                        placeholder="Ej: Café Americano">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Precio ($)</label>
+                        <input type="number" [(ngModel)]="currentProduct.price" name="price" required min="0"
+                            step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock Inicial</label>
+                        <input type="number" [(ngModel)]="currentProduct.stock" name="stock" required min="0">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" [disabled]="saving">
+                        {{ saving ? 'Guardando...' : 'Guardar' }}
+                    </button>
+                    <button type="button" class="btn-outline" (click)="closeForm()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    }
+
+    <div class="list-section fade-in">
+        <div class="table-container">
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (product of products; track product._id) {
+                    <tr>
+                        <td class="product-name-cell">
+                            <span class="icon">☕</span>
+                            {{ product.name }}
+                        </td>
+                        <td>{{ product.price | currency:'USD' }}</td>
+                        <td>
+                            <span [class.low-stock]="product.stock < 10">{{ product.stock }}</span>
+                        </td>
+                        <td>
+                            <span class="status-badge" [class.out-of-stock]="product.stock === 0">
+                                {{ product.stock > 0 ? 'Disponible' : 'Sin Stock' }}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="action-btn" (click)="editProduct(product)">✏️</button>
+                            <button class="action-btn delete" (click)="confirmDelete(product!._id!)">🗑️</button>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="5" class="empty-msg">
+                            {{ loading ? 'Cargando inventario...' : 'No hay productos.' }}
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

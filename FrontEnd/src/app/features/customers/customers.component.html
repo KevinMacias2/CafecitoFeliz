@@ -1,0 +1,73 @@
+<div class="customers-container fade-in">
+    <div class="header">
+        <h1 class="brand-font">Gestión de Clientes</h1>
+        <button class="btn-primary" (click)="showForm = !showForm">
+            {{ showForm ? 'Ver Listado' : '+ Nuevo Cliente' }}
+        </button>
+    </div>
+
+    @if (showForm) {
+    <div class="form-card fade-in">
+        <h2 class="brand-font">Registrar Cliente</h2>
+        <form (ngSubmit)="saveCustomer()">
+            <div class="form-group">
+                <label>Nombre Completo</label>
+                <input type="text" [(ngModel)]="newCustomer.name" name="name" required placeholder="Ej: Juan Pérez">
+            </div>
+            <div class="form-group">
+                <label>Teléfono o Correo</label>
+                <input type="text" [(ngModel)]="newCustomer.phoneOrEmail" name="phoneOrEmail" required
+                    placeholder="Ej: 555-0123 o juan@mail.com">
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary" [disabled]="saving">
+                    {{ saving ? 'Guardando...' : 'Guardar Cliente' }}
+                </button>
+                <button type="button" class="btn-outline" (click)="showForm = false">Cancelar</button>
+            </div>
+        </form>
+    </div>
+    } @else {
+    <div class="list-section fade-in">
+        <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input type="text" [(ngModel)]="searchQuery" placeholder="Buscar por nombre, teléfono o correo..."
+                class="search-input">
+        </div>
+
+        <div class="table-container">
+            <table class="customers-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Contacto</th>
+                        <th>Compras</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (customer of filteredCustomers; track customer._id) {
+                    <tr>
+                        <td>{{ customer.name }}</td>
+                        <td>{{ customer.phoneOrEmail }}</td>
+                        <td>{{ customer.purchasesCount }}</td>
+                        <td>
+                            <span class="badge"
+                                [class.recurring]="customer.purchasesCount && customer.purchasesCount >= 5">
+                                {{ customer.purchasesCount && customer.purchasesCount >= 5 ? 'Recurrente' : 'Nuevo' }}
+                            </span>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="4" class="empty-msg">
+                            {{ loading ? 'Cargando clientes...' : 'No se encontraron clientes.' }}
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    }
+</div>

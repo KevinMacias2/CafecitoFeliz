@@ -1,0 +1,124 @@
+.customers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-card {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    max-width: 500px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.form-group input {
+    padding: 0.85rem;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    outline: none;
+    font-size: 1rem;
+}
+
+.form-group input:focus {
+    border-color: var(--secondary-green);
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.form-actions button {
+    flex: 1;
+}
+
+.search-bar {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.85rem 1rem 0.85rem 3rem;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    font-size: 1rem;
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: var(--secondary-green);
+}
+
+.table-container {
+    background: white;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow-x: auto;
+}
+
+.customers-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.customers-table th {
+    padding: 1rem;
+    border-bottom: 2px solid var(--accent-green-light);
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.customers-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.badge {
+    padding: 0.25rem 0.65rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.badge.recurring {
+    background: var(--accent-green-light);
+    color: var(--secondary-green);
+}
+
+.empty-msg {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-muted);
+}
