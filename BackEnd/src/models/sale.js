@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const SaleSchema = new mongoose.Schema({
     customer: {
@@ -19,8 +19,8 @@ const SaleSchema = new mongoose.Schema({
                 required: true,
                 min: 1
             },
-            price: { 
-                type: Number, 
+            price: {
+                type: Number,
                 required: true // Snapshot del precio unitario (unitPriceSnapshot)
             },
             lineTotal: {
@@ -41,4 +41,4 @@ const SaleSchema = new mongoose.Schema({
     timestamps: true // Esto genera createdAt y updatedAt automáticamente
 });
 
-module.exports = mongoose.model('Sale', SaleSchema);
+export default mongoose.model('Sale', SaleSchema);

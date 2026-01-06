@@ -1,7 +1,7 @@
-const Product = require('../models/product');
+import Product from '../models/product.js';
 
 // 1. Obtener productos (con búsqueda opcional ?q=nombre)
-exports.getProducts = async (req, res) => {
+export const getProducts = async (req, res) => {
     try {
         const { q } = req.query; // Capturamos el parámetro "q" de la URL
         let query = {};
@@ -23,7 +23,7 @@ exports.getProducts = async (req, res) => {
 };
 
 // 2. Crear un producto
-exports.createProduct = async (req, res) => {
+export const createProduct = async (req, res) => {
     try {
         const newProduct = new Product(req.body);
         await newProduct.save();
@@ -34,19 +34,19 @@ exports.createProduct = async (req, res) => {
 };
 
 // 3. Actualizar producto
-exports.updateProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
     try {
         // new: true devuelve el producto YA actualizado, no el viejo
         const updatedProduct = await Product.findByIdAndUpdate(
-            req.params.id, 
-            req.body, 
-            { new: true } 
+            req.params.id,
+            req.body,
+            { new: true }
         );
-        
+
         if (!updatedProduct) {
             return res.status(404).json({ msg: 'Producto no encontrado' });
         }
-        
+
         res.json(updatedProduct);
     } catch (error) {
         res.status(400).json({ msg: 'Error al actualizar' });
@@ -54,10 +54,10 @@ exports.updateProduct = async (req, res) => {
 };
 
 // 4. Eliminar producto
-exports.deleteProduct = async (req, res) => {
+export const deleteProduct = async (req, res) => {
     try {
         const deletedProduct = await Product.findByIdAndDelete(req.params.id);
-        
+
         if (!deletedProduct) {
             return res.status(404).json({ msg: 'Producto no encontrado' });
         }

@@ -1,28 +1,30 @@
-const express = require('express');
-const cors = require('cors');
-const conectarDB = require('./config/db');
+import express from 'express';
+import cors from 'cors';
+import conectarDB from './src/config/db.js';
+
+import productRoutes from './src/routes/products.js';
+import customerRoutes from './src/routes/customers.js';
+import saleRoutes from './src/routes/sales.js';
 
 const app = express();
 const port = 3000;
 
-// 1. Conectar a Base de Datos
+// 1. Conectar DB
 conectarDB();
 
 // 2. Middleware
-app.use(cors()); // Permite peticiones de Angular
-app.use(express.json()); // Permite leer JSON
+app.use(cors());
+app.use(express.json());
 
-// 3. Rutas (Endpoints)
-app.use('/api/products', require('./routes/products'));
-app.use('/api/customers', require('./routes/customers'));
-app.use('/api/sales', require('./routes/sales'));
+// 3. Rutas
+app.use('/api/products', productRoutes);
+app.use('/api/customers', customerRoutes);
+app.use('/api/sales', saleRoutes);
 
-// Ruta base de prueba
 app.get('/', (req, res) => {
-    res.send('API CafecitoFeliz: Productos, Clientes y Ventas listos ☕');
+    res.send('API CafecitoFeliz funcionando con ES Modules ☕');
 });
 
-// 4. Arrancar servidor
 app.listen(port, () => {
     console.log(`🚀 Servidor listo en http://localhost:${port}`);
 });

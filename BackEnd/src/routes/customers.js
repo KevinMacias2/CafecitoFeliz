@@ -1,9 +1,10 @@
-const express = require('express');
+import express from 'express';
+import * as customerController from '../controllers/customerController.js';
+
 const router = express.Router();
-const customerController = require('../controllers/customerController');
 
 router.get('/', customerController.getCustomers);
 router.post('/', customerController.createCustomer);
 router.get('/:id', customerController.getCustomerById);
 
-module.exports = router;
+export default router;

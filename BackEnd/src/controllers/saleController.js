@@ -1,12 +1,12 @@
-const Sale = require('../models/sale');
-const Product = require('../models/product');
-const Customer = require('../models/customer');
+import Sale from '../models/sale.js';
+import Product from '../models/product.js';
+import Customer from '../models/customer.js';
 
 // 1. Crear Venta
-exports.createSale = async (req, res) => {
+export const createSale = async (req, res) => {
     try {
         const { items, customerId, paymentMethod } = req.body;
-        
+
         // A. Validaciones y Cálculo de Items
         let subtotal = 0;
         const saleItems = [];
@@ -19,13 +19,13 @@ exports.createSale = async (req, res) => {
 
             // Validar stock (Opcional según tu doc, pero recomendado)
             if (product.stock < item.quantity) {
-                 return res.status(400).json({ msg: `Stock insuficiente para ${product.name}` });
+                return res.status(400).json({ msg: `Stock insuficiente para ${product.name}` });
             }
 
             // Cálculos
             const unitPrice = product.price;
             const lineTotal = unitPrice * item.quantity; // Calculamos el total de línea
-            
+
             subtotal += lineTotal;
 
             // Preparamos el item con Snapshots
@@ -38,8 +38,8 @@ exports.createSale = async (req, res) => {
             });
 
             // (Opcional) Restar stock aquí si lo deseas
-             product.stock -= item.quantity;
-             await product.save();
+            product.stock -= item.quantity;
+            await product.save();
         }
 
         // B. Calcular Descuento (Regla de negocio)
@@ -50,7 +50,7 @@ exports.createSale = async (req, res) => {
             customer = await Customer.findById(customerId);
             if (customer) {
                 const count = customer.purchasesCount;
-                
+
                 // Reglas de negocio:
                 if (count >= 1 && count <= 3) discountPercent = 5;
                 else if (count >= 4 && count <= 7) discountPercent = 10;
@@ -91,14 +91,14 @@ exports.createSale = async (req, res) => {
 };
 
 // 2. Obtener detalle de venta (Ticket)
-exports.getSaleById = async (req, res) => {
+export const getSaleById = async (req, res) => {
     try {
         const sale = await Sale.findById(req.params.id)
             .populate('customer', 'name phoneOrEmail')
             .populate('items.product', 'name');
-            
+
         if (!sale) return res.status(404).json({ msg: 'Venta no encontrada' });
-        
+
         res.json(sale);
     } catch (error) {
         res.status(500).json({ msg: 'Error al obtener venta' });
