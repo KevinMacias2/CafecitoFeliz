@@ -13,13 +13,13 @@ const SaleSchema = new mongoose.Schema({
                 ref: 'Product',
                 required: true
             },
-            name: String, // Snapshot del nombre (productNameSnapshot)
+            productNameSnapshot: String, // Snapshot del nombre (productNameSnapshot)
             quantity: {
                 type: Number,
                 required: true,
                 min: 1
             },
-            price: {
+            unitPriceSnapshot: {
                 type: Number,
                 required: true // Snapshot del precio unitario (unitPriceSnapshot)
             },

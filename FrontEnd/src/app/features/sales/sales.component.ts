@@ -118,9 +118,9 @@ export class SalesComponent implements OnInit {
       customer: this.selectedCustomerId,
       items: this.cart.map(item => ({
         product: item.product._id!,
-        name: item.product.name,
+        productNameSnapshot: item.product.name,
         quantity: item.quantity,
-        price: item.product.price,
+        unitPriceSnapshot: item.product.price,
         lineTotal: item.product.price * item.quantity
       })),
       subtotal: this.subtotal,

@@ -31,9 +31,9 @@ export const createSale = async (req, res) => {
             // Preparamos el item con Snapshots
             saleItems.push({
                 product: product._id,
-                name: product.name,
+                productNameSnapshot: product.name,
                 quantity: item.quantity,
-                price: unitPrice,
+                unitPriceSnapshot: unitPrice,
                 lineTotal: lineTotal // Guardamos el total de línea
             });
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Customer } from '../models/pos.models';
 
 @Injectable({
@@ -12,7 +12,9 @@ export class CustomerService {
     constructor(private http: HttpClient) { }
 
     getCustomers(): Observable<Customer[]> {
-        return this.http.get<Customer[]>(this.apiUrl);
+        return this.http.get<{ items: Customer[], total: number }>(this.apiUrl).pipe(
+            map(response => response.items)
+        );
     }
 
     getCustomerById(id: string): Observable<Customer> {

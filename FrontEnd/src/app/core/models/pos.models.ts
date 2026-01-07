@@ -14,9 +14,9 @@ export interface Customer {
 
 export interface SaleItem {
     product: string; // Product ID
-    name: string;
+    productNameSnapshot: string;
     quantity: number;
-    price: number;
+    unitPriceSnapshot: number;
     lineTotal: number;
 }
 

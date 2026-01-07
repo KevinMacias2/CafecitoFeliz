@@ -107,7 +107,7 @@
         <div class="ticket-body">
             @for (item of lastSale.items; track item.product) {
             <div class="ticket-row">
-                <span>{{ item.quantity }}x {{ item.name }}</span>
+                <span>{{ item.quantity }}x {{ item.productNameSnapshot }}</span>
                 <span>{{ item.lineTotal | currency:'USD' }}</span>
             </div>
             }
