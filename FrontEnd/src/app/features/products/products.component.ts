@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../core/services/product.service';
 import { Product } from '../../core/models/pos.models';
+import { NotificationService } from '../../shared/toast/notification.service';
 
 @Component({
   selector: 'app-products',
@@ -20,7 +21,7 @@ export class ProductsComponent implements OnInit {
   products: Product[] = [];
   currentProduct: Product = { name: '', price: 0, stock: 0 };
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.loadProducts();
@@ -74,12 +75,12 @@ export class ProductsComponent implements OnInit {
     this.saving = false;
     this.closeForm();
     this.loadProducts();
-    alert(msg);
+    this.notificationService.success(msg);
   }
 
   private handleError() {
     this.saving = false;
-    alert('Error al procesar la solicitud.');
+    this.notificationService.error('Error al procesar la solicitud.');
   }
 
   confirmDelete(id: string) {
@@ -87,9 +88,9 @@ export class ProductsComponent implements OnInit {
       this.productService.deleteProduct(id).subscribe({
         next: () => {
           this.loadProducts();
-          alert('Producto eliminado');
+          this.notificationService.success('Producto eliminado');
         },
-        error: () => alert('Error al eliminar producto')
+        error: () => this.notificationService.error('Error al eliminar producto')
       });
     }
   }

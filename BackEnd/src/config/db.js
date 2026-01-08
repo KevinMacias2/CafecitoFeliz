@@ -5,7 +5,7 @@ dotenv.config();
 
 const conectarDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/CafecitoFeliz');
+        await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/cafecitofeliz');
         console.log('✅ Base de Datos Conectada Exitosamente');
     } catch (error) {
         console.log('❌ Error al conectar DB:', error);

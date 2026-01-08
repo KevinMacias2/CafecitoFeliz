@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CustomerService } from '../../core/services/customer.service';
 import { Customer } from '../../core/models/pos.models';
+import { NotificationService } from '../../shared/toast/notification.service';
 
 @Component({
     selector: 'app-customers',
@@ -20,7 +21,7 @@ export class CustomersComponent implements OnInit {
     loading = false;
     saving = false;
 
-    constructor(private customerService: CustomerService) { }
+    constructor(private customerService: CustomerService, private notificationService: NotificationService) { }
 
     get filteredCustomers() {
         return this.customers.filter(c =>
@@ -53,11 +54,11 @@ export class CustomersComponent implements OnInit {
                     this.showForm = false;
                     this.newCustomer = { name: '', phoneOrEmail: '' };
                     this.loadCustomers();
-                    alert('Cliente registrado con éxito!');
+                    this.notificationService.success('Cliente registrado con éxito!');
                 },
                 error: () => {
                     this.saving = false;
-                    alert('Error al registrar cliente. El contacto podría estar duplicado.');
+                    this.notificationService.error('Error al registrar cliente. El contacto podría estar duplicado.');
                 }
             });
         }

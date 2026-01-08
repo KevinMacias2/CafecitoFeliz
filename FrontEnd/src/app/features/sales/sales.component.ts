@@ -5,6 +5,7 @@ import { ProductService } from '../../core/services/product.service';
 import { CustomerService } from '../../core/services/customer.service';
 import { SaleService } from '../../core/services/sale.service';
 import { Product, Customer, Sale, SaleItem } from '../../core/models/pos.models';
+import { NotificationService } from '../../shared/toast/notification.service';
 
 interface CartItem {
   product: Product;
@@ -35,7 +36,8 @@ export class SalesComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private customerService: CustomerService,
-    private saleService: SaleService
+    private saleService: SaleService,
+    private notificationService: NotificationService
   ) { }
 
   get filteredProducts() {
@@ -136,10 +138,11 @@ export class SalesComponent implements OnInit {
         this.showTicket = true;
         this.processingSale = false;
         this.clearCart();
-        this.loadData(); // Refresh products (stock changed)
+        this.loadData();
+        this.notificationService.success('Venta registrada con éxito');
       },
       error: (err) => {
-        alert('Error al registrar la venta. Intente nuevamente.');
+        this.notificationService.error('Error al registrar la venta. Intente nuevamente.');
         this.processingSale = false;
       }
     });
