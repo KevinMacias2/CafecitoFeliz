@@ -1,0 +1,243 @@
+.login-container {
+    min-height: 100vh;
+    background-color: var(--primary-brown);
+    /* Main Background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    font-family: 'Outfit', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-content {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+    gap: 4rem;
+}
+
+/* Login Card (Left Side) */
+.login-card {
+    background: white;
+    padding: 3.5rem;
+    border-radius: 40px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.welcome-text {
+    font-size: 2.2rem;
+    color: var(--primary-brown);
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+input {
+    width: 100%;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    font-size: 1rem;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--secondary-green);
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(104, 117, 32, 0.15);
+    transform: translateY(-2px);
+}
+
+input.error {
+    border-color: #dc3545;
+    background-color: #fff8f8;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+}
+
+.btn-login {
+    width: 100%;
+    padding: 1.2rem;
+    background-color: var(--secondary-green);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+}
+
+.btn-login:hover:not(:disabled) {
+    background-color: #4b5517;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-login:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.footer {
+    margin-top: 3rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* Brand Section (Right Side) */
+.brand-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.brand-content {
+    text-align: center;
+}
+
+.brand-logo {
+    width: 280px;
+    height: auto;
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.1));
+}
+
+.brand-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* ANIMATIONS */
+.floating-logo {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Background Circles */
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    z-index: 1;
+    filter: blur(20px);
+    /* Reduced blur for more solidity */
+}
+
+.circle-1 {
+    width: 700px;
+    height: 700px;
+    background-color: var(--secondary-green);
+    top: -250px;
+    right: -150px;
+    opacity: 0.6;
+    /* Increased visible opacity */
+}
+
+.circle-2 {
+    width: 600px;
+    height: 600px;
+    background-color: var(--secondary-green);
+    bottom: -200px;
+    left: -150px;
+    opacity: 0.5;
+    /* Increased visible opacity */
+}
+
+.circle-3 {
+    width: 400px;
+    height: 400px;
+    background-color: var(--secondary-green);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.4;
+    /* Increased visible opacity */
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .login-content {
+        flex-direction: column-reverse;
+        gap: 2rem;
+    }
+
+    .brand-logo {
+        width: 150px;
+    }
+
+    .brand-title {
+        font-size: 2rem;
+        margin-top: 1rem;
+    }
+
+    .login-card {
+        padding: 2rem;
+    }
+}

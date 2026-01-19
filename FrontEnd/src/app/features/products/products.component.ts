@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../core/services/product.service';
 import { Product } from '../../core/models/pos.models';
 import { NotificationService } from '../../shared/toast/notification.service';
+import { SkeletonLoaderComponent } from '../../shared/components/skeleton-loader/skeleton-loader.component';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SkeletonLoaderComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })

@@ -4,8 +4,10 @@
   /* Starbucks inspired palette */
   --bg-white: #ffffff;
   --primary-brown: #3C2415;
-  --secondary-green: #00704A;
-  --accent-green-light: #d4e9e2;
+  --secondary-green: #687520;
+  /* New Olive Green */
+  --accent-green-light: #e6e8d2;
+  /* Adjusted light accent */
   --text-dark: #212121;
   --text-muted: #6b6b6b;
   --border-light: #e0e0e0;
@@ -74,7 +76,8 @@ button {
 }
 
 .btn-primary:hover {
-  background-color: #005a3c;
+  background-color: #4b5517;
+  /* Darker shade of #687520 */
   transform: translateY(-1px);
 }
 

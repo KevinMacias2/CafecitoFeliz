@@ -97,7 +97,7 @@
 
 <!-- Ticket Modal -->
 <div class="ticket-modal" *ngIf="showTicket && lastSale">
-    <div class="ticket-content">
+    <div class="ticket-content" id="ticketContent">
         <div class="ticket-header">
             <img src="Logo_Cafe.png" alt="Logo" class="ticket-logo">
             <h3>Cafecito Feliz</h3>
@@ -119,8 +119,12 @@
             </div>
         </div>
         <div class="ticket-footer">
+            <!-- Note: Footer might be excluded from PDF if outside ID, but user wants voucher. Usually footer "Thanks" is inside. Button outside. -->
             <p>¡Gracias por su compra!</p>
-            <button class="btn-primary" (click)="closeTicket()">Cerrar</button>
         </div>
+    </div>
+    <div class="modal-actions" style="margin-top: 20px; display: flex; justify-content: center; gap: 10px;">
+        <button class="btn-primary" (click)="downloadTicket()">⬇ Descargar PDF</button>
+        <button class="btn-outline" (click)="closeTicket()">Cerrar</button>
     </div>
 </div>

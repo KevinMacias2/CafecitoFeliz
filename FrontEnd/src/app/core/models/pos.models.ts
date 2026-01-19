@@ -13,7 +13,8 @@ export interface Customer {
 }
 
 export interface SaleItem {
-    product: string; // Product ID
+    product?: string | any; // Product ID or populated object (response)
+    productId?: string;     // Explicit ID (request)
     productNameSnapshot: string;
     quantity: number;
     unitPriceSnapshot: number;

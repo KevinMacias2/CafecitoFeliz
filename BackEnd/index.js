@@ -5,6 +5,7 @@ import conectarDB from './src/config/db.js';
 import productRoutes from './src/routes/products.js';
 import customerRoutes from './src/routes/customers.js';
 import saleRoutes from './src/routes/sales.js';
+import authRoutes from './src/routes/auth.js';
 
 const app = express();
 const port = 3000;
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use('/api/products', productRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/sales', saleRoutes);
+app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
     res.send('API CafecitoFeliz funcionando con ES Modules ☕');

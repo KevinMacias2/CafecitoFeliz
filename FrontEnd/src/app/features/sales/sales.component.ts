@@ -12,6 +12,9 @@ interface CartItem {
   quantity: number;
 }
 
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 @Component({
   selector: 'app-sales',
   standalone: true,
@@ -20,6 +23,7 @@ interface CartItem {
   styleUrl: './sales.component.css'
 })
 export class SalesComponent implements OnInit {
+  // ... existing properties ...
   searchQuery: string = '';
   products: Product[] = [];
   customers: Customer[] = [];
@@ -39,6 +43,8 @@ export class SalesComponent implements OnInit {
     private saleService: SaleService,
     private notificationService: NotificationService
   ) { }
+
+  // ... existing getters and methods ...
 
   get filteredProducts() {
     return this.products.filter(p =>
@@ -116,14 +122,12 @@ export class SalesComponent implements OnInit {
     if (this.cart.length === 0) return;
 
     this.processingSale = true;
-    const sale: Sale = {
-      customer: this.selectedCustomerId,
+    const salePayload: any = {
+      customerId: this.selectedCustomerId,
       items: this.cart.map(item => ({
-        product: item.product._id!,
+        productId: item.product._id!,
         productNameSnapshot: item.product.name,
-        quantity: item.quantity,
-        unitPriceSnapshot: item.product.price,
-        lineTotal: item.product.price * item.quantity
+        quantity: item.quantity
       })),
       subtotal: this.subtotal,
       discountPercent: this.discountPercent,
@@ -132,7 +136,7 @@ export class SalesComponent implements OnInit {
       paymentMethod: 'cash'
     };
 
-    this.saleService.createSale(sale).subscribe({
+    this.saleService.createSale(salePayload).subscribe({
       next: (registeredSale) => {
         this.lastSale = registeredSale;
         this.showTicket = true;
@@ -142,7 +146,9 @@ export class SalesComponent implements OnInit {
         this.notificationService.success('Venta registrada con éxito');
       },
       error: (err) => {
-        this.notificationService.error('Error al registrar la venta. Intente nuevamente.');
+        console.error(err);
+        const msg = err.error?.msg || 'Error al registrar la venta. Intente nuevamente.';
+        this.notificationService.error(msg);
         this.processingSale = false;
       }
     });
@@ -151,5 +157,23 @@ export class SalesComponent implements OnInit {
   closeTicket() {
     this.showTicket = false;
     this.lastSale = null;
+  }
+
+  downloadTicket() {
+    const data = document.getElementById('ticketContent');
+    if (data) {
+      html2canvas(data, { scale: 2 }).then(canvas => {
+        const imgWidth = 80; // Small receipt width (mm)
+        const pageHeight = 295;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+
+        const contentDataURL = canvas.toDataURL('image/png');
+        // 'p', 'mm', [width, height] - Custom small format
+        const pdf = new jsPDF('p', 'mm', [imgWidth, imgHeight + 10]); // +10 margin
+        const position = 0;
+        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+        pdf.save(`Voucher-${this.lastSale?._id?.slice(-6)}.pdf`);
+      });
+    }
   }
 }
